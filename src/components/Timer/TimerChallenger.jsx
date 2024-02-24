@@ -11,25 +11,25 @@ const TimerChallenger = ({ title, targetTimer }) => {
 const timeIsActive = timeRemaining > 0 && timeRemaining < targetTimer * 1000
     if(timeRemaining <= 0){
       clearInterval(timer.current)
-      setTimeRemaining(targetTimer * 1000)
       dialog.current.open()
     }
     const handleStartTimer = () => {
         timer.current = setInterval(() => {
-            // setTimerExpired(true)
-            // dialog.current.open()
             setTimeRemaining((prevtime) => prevtime -10)
         },  10)
-        // setTimeStarted(true)
     }
 
     const handleStopTimer = () => {
         dialog.current.open()
         clearInterval(timer.current)
     }
+
+    const handleReset = () => {
+        setTimeRemaining(targetTimer * 1000)
+    }
     return (
         <>
-            <ResultModal ref={dialog} targetTime={targetTimer} title="Lost" />
+            <ResultModal ref={dialog} targetTime={targetTimer} title="Lost" remainingTime={timeRemaining} onReset={handleReset}/>
         <section className='challenge'>
             <h2>{title}</h2>
             <p className='challenge-time'>
